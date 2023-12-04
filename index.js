@@ -15,5 +15,5 @@ app.use("/api", router)
 
 
 app.listen(SERVER_PORT, () => {
-  console.log("server ok");
+  console.log("Server running on port " + SERVER_PORT );
 });

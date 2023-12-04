@@ -1,3 +1,5 @@
+import { CANDIDATOS } from "../../config/config.js";
+
 class xMemoryDao {
   constructor() {
     this.votos = []; 
@@ -13,23 +15,27 @@ class xMemoryDao {
       return error;
     }
   };
-  getAllDao = async () => {
-    try {
-      const data = await this.palabras.join(" ");
-      return data;
-    } catch (error) {
-      return error;
-    }
+  getAllxZona = (zona) => {
+      const votos = this.votos.filter((voto) => voto.distrito === zona);
+      const contados = {}
+      votos.forEach(voto => {
+         if (contados[voto.candidato]){
+            contados[voto.candidato] += 1
+         } else {
+            contados[voto.candidato] = 1
+         }
+      });
+
+      CANDIDATOS.forEach(c => {
+        if(!contados[c]){
+          contados[c] = 0
+        }
+      })
+
+      return contados;
   };
-  getAmountDao = async (amount) => {
-    try {
-      const data = await fetch(
-        `https://texto.deno.dev/palabras?cantidad=${amount} `
-      ).then((info) => info.json());
-      return data;
-    } catch (error) {
-      return error;
-    }
+  insertBulk =  (votos) => {
+    this.votos.push(...votos);
   };
 }
 
